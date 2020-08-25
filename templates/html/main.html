@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>博客主页</title>
+</head>
+<body>
+    <span>{{user.name}}的博客</span>
+    <div>
+        <form action="{% url 'blog:add_blog' %}" method="post">
+            <textarea name="blog_content" id="" cols="30" rows="10"></textarea>
+            <button type="submit">发布</button>
+        </form>
+        {% for blog in blogs %}
+            <div>用户名字：{{blog.user_id.name}}</div>
+            <div>博客内容:{{blog.content}}</div>
+            <div>评论：</div>
+            {% for comment in blog.comment_set.all %}
+                <div>{{comment.c_user.name}}:{{ comment.review }}</div>
+            {% endfor %}
+            <form action="/blog/comment/" method="post">
+                <textarea name="review"  cols="30" rows="2.5" ></textarea>
+                <input hidden="hidden" type="text" name="b_id" value="{{blog.id}}">
+                <button type="submit">评论</button>
+            </form>
+        {% endfor %}
+    </div>
+</body>
+</html>
